@@ -1,14 +1,20 @@
 package com.iudi.engine;
 
+import java.awt.Window;
+
 public class GameContainer implements Runnable {
 	
 	private Thread thread;
+	private GameWindow window;
+	private GraphicRenderer graphicRenderer;
+
 	private final double UPDATE_LIMIT = 1.0/60.0;
 	private boolean running = false;
 	
 	private int width = 320, heigh = 240;
-	private float scale = 1f;
-	private String containerTitle = "SEMNOME - O JOGO";
+	private float scale = 4f;
+	private String containerTitle = "SemNome - the game";
+	
 
 	public GameContainer() 
 	{
@@ -17,6 +23,8 @@ public class GameContainer implements Runnable {
 	
 	public void start() 
 	{
+	window = new GameWindow(this);
+	graphicRenderer = new GraphicRenderer(this);
 	thread = new Thread(this);
 	thread.run();
 
@@ -72,7 +80,10 @@ public class GameContainer implements Runnable {
 			
 			if(render)
 			{
+				graphicRenderer.clear();
+				window.update();
 				//TODO: renderizar os 'frames'
+				//TODO atualizar a janela
 				frames++;
 			}
 			else 
@@ -123,5 +134,17 @@ public class GameContainer implements Runnable {
 	public static void main(String[] args) {
 		GameContainer gameContainer = new GameContainer();
 		gameContainer.start();
+	}
+
+	public String getContainerTitle() {
+		return containerTitle;
+	}
+
+	public void setContainerTitle(String containerTitle) {
+		this.containerTitle = containerTitle;
+	}
+
+	public GameWindow getWindow() {
+		return window;
 	}
 }
