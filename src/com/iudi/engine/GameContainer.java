@@ -1,18 +1,17 @@
 package com.iudi.engine;
 
-import java.awt.Window;
-
 public class GameContainer implements Runnable {
 	
 	private Thread thread;
 	private GameWindow window;
 	private GraphicRenderer graphicRenderer;
-
+	private Input input;
+	
 	private final double UPDATE_LIMIT = 1.0/60.0;
 	private boolean running = false;
 	
-	private int width = 320, heigh = 240;
-	private float scale = 4f;
+	private int width = 900, heigh = 600;
+	private float scale = 1f;
 	private String containerTitle = "SemNome - the game";
 	
 
@@ -26,8 +25,9 @@ public class GameContainer implements Runnable {
 	window = new GameWindow(this);
 	graphicRenderer = new GraphicRenderer(this);
 	thread = new Thread(this);
-	thread.run();
+	input = new Input(this);
 
+	thread.run();
 	}
 	
 	public void stop() 
@@ -49,7 +49,7 @@ public class GameContainer implements Runnable {
 		
 		double frameTime = 0;
 		int frames = 0;
-		int fps = 0;
+		int fps;
 					
 		while(running) 
 		{
@@ -66,24 +66,24 @@ public class GameContainer implements Runnable {
 			{
 				unprocessedTime -= UPDATE_LIMIT;
 				render = true;
-				//TODO: atualizar o frame
+				
+				// System.out.println("x: " + input.getMouseX() + "  y: " + input.getMouseY());
+				input.update();
+				
 				
 				if(frameTime >= 1.0)
 				{
 					frameTime = 0;
 					fps = frames;
 					frames = 0;
-					System.out.println("fps: " + fps);
+					System.out.println("FPS: " + fps);
 				}
-				
 			}
 			
 			if(render)
 			{
 				graphicRenderer.clear();
 				window.update();
-				//TODO: renderizar os 'frames'
-				//TODO atualizar a janela
 				frames++;
 			}
 			else 

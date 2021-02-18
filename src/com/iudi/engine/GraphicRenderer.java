@@ -19,7 +19,7 @@ public class GraphicRenderer
 	{
 		for(int i = 0; i < pixel.length; i++)
 		{
-			pixel[i] = 1;
+			pixel[i] = 0 ;
 		}
 	}
 	
